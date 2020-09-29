@@ -1,0 +1,32 @@
+/* 
+body {
+  background: url('https://media.giphy.com/media/3o7WTDJQVuYwhhuLhC/giphy.gif') !important;
+}
+ */
+
+#scrap_button {
+   padding: 8px;
+   position: fixed;
+   left: 0px;
+   top: 0px;
+   width: 32px;
+   height: 32px;
+   overflow: hidden;
+   z-index: 10000;
+   cursor: pointer;
+/*    border-right: gray solid 1px; */
+}
+
+#scrap_panel {
+   display: none;
+   padding: 4px;
+   position: fixed;
+   left: 0px;
+   top: 0px;
+   width: 360px;
+   height: 100%;
+   overflow-y: scroll;
+   z-index: 10001;
+   background: rgba(255,255,255,0.9);
+/*    border-right: gray solid 1px; */
+}
