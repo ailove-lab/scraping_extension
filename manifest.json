@@ -9,21 +9,19 @@
       "storage","cookies", "tabs", "http://*/*", "https://*/*" 
   ],
   
-  "icons": { "32": "img/favicon.png" },
+  "icons": { "32": "favicon.png" },
     
   "browser_action": {},
-  "background": {
-      "scripts": ["background.js"]
-  },
 
   "content_scripts": [{
-    "css": ["lib/bulma.min.css","styles.css"],
-    "js": ["lib/vue.js", "lib/icons.js","lib/xlsx.mini.min.js","content.js"],
+    "css": ["style.css", "vuetify.min.css", "fonts/materialdesignicons.css"],
+    "js": ["vue.js", "vuetify.js", "xlsx.mini.min.js", "main.js"],
     "run_at": "document_idle",
     "matches": ["https://ozon.ru/*", "https://*.ozon.ru/*"]
   }],
   
   "web_accessible_resources":[
-    "img/favicon.png"
+    "favicon.png",
+    "fonts/*"
   ]
 }
