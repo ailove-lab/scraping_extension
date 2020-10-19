@@ -6,14 +6,17 @@ class Scraper
 
   @ozon:
     category:
-      category: "#{@ozon_search_sel} div.b7i4 > input"
-      links   : "#{@ozon_prod_sel} > div > div.a0s9 > a.a0y9.tile-hover-target"
-      price1  : "#{@ozon_prod_sel} > div > div.a0s9 > a.a0y9.tile-hover-target > div > span"
-      price2  : "#{@ozon_prod_sel} > div > div.a0s9 > a.a0y9.tile-hover-target > div > div"
-      titles  : "#{@ozon_prod_sel} > div > div.a0s9 > a.a2g0.tile-hover-target"
-      rating  : "#{@ozon_prod_sel} > div > div.a0s9 > div.a1a9 > div > div"
-      reviews : "#{@ozon_prod_sel} > div > div.a0s9 > div.a1a9 > a"
-      sizes   : "#{@ozon_prod_sel} > div > div.a0s9 > div.a2i2.common-aspect"
+      category   : "#{@ozon_search_sel} div.b7i4 > input"
+      link       : "div > div.a0s9 > a.a0y9.tile-hover-target"
+      price1     : "div > div.a0s9 > a.a0y9.tile-hover-target > div > span"
+      price2     : "div > div.a0s9 > a.a0y9.tile-hover-target > div > div"
+      unit_price : "div > div.a0s9 > a.a0y9.tile-hover-target > span"
+      prem_price : "div > div.a0s9 > a.a0y9.tile-hover-target > div.a0x > div"
+      discount   : "div > a > div > section > span.a1h7.a1i.a1i6"
+      title      : "div > div.a0s9 > a.a2g0.tile-hover-target"
+      rating     : "div > div.a0s9 > div.a1a9 > div > div"
+      reviews    : "div > div.a0s9 > div.a1a9 > a"
+      sizes      : "div > div.a0s9 > div.a2i2.common-aspect > div"
 
     product:
       breadcrumbs : "#__ozon > div > div.a4e4 > div:nth-child(5) > div:nth-child(1) > div > div.b0h8.b0i6.b0j0.b0j8.b5y1 > div > ol"
@@ -124,25 +127,23 @@ class Scraper
     m = @market()
     if m is "ozon"
       sel = Scraper[m].category
-      ds  = (s)->document.querySelectorAll s 
-      links   = [...ds(sel.links)]
-      hrefs   = links.map((e)->e.getAttribute("href"))
-      price1  = [...ds(sel.price1 )].map((e)->e.innerText)
-      price2  = [...ds(sel.price2 )].map((e)->e.innerText)
-      titles  = [...ds(sel.titles )].map((e)->e.innerText)
-      rating  = [...ds(sel.rating )].map((e)->e.style.width)
-      reviews = [...ds(sel.reviews)].map((e)->e.innerText)
-      sizes   = [...ds(sel.sizes  )].map((e)->[...e.querySelectorAll("div")].map((d)=>d.innerText).join("/"))
-            
-      links.map (h,i)->
-        link:    links[i]
-        href:    hrefs[i]
-        price1:  price1[i]
-        price2:  price2[i]
-        title:   titles[i]
-        rating:  rating[i]
-        reviews: reviews[i]
-        sizes:   sizes[i]
+      # Забираем все карточки, извлекаем компоненты
+      products = [...document.querySelectorAll @ozon_prod_sel].map (p, i)->
+        q  = (s)->p.querySelector s
+        qa = (s)->[...p.querySelectorAll s]
+        rank      : i
+        link      : q(sel.link       )
+        href      : q(sel.link       )?.getAttribute("href")
+        price1    : q(sel.price1     )?.innerText
+        price2    : q(sel.price2     )?.innerText
+        prem_price: q(sel.prem_price )?.innerText
+        unit_price: q(sel.unit_price )?.innerText
+        discount  : q(sel.discount   )?.innerText
+        title     : q(sel.title      )?.innerText
+        rating    : q(sel.rating     )?.style.width
+        reviews   : q(sel.reviews    )?.innerText
+        sizes     : qa(sel.sizes     )?.map((e)->e.innerText).join("/")
+           
         
   @get_product: ->
     m = @market()
@@ -150,6 +151,9 @@ class Scraper
       sel = Scraper[m].product
       da  = (s)->document.querySelectorAll s
       ds  = (s)->document.querySelector s
+      
+      state = ds('[id^="state-listPhotos"]')?.getAttribute("data-state")
+      user_photos = if state? then JSON.parse(state).paging.total else "-"
 
       product =
         breadcrumbs : [...da(sel.breadcrumbs)].map((e)=>e.innerText.trim()).join("/")
@@ -161,7 +165,7 @@ class Scraper
         specs       : ds(sel.specs      )?.innerText
         tags        : ds(sel.tags       )?.innerText
         stars       : ds(sel.stars      )?.innerText
-
+        user_photos : user_photos
     product
     
 module.exports = Scraper

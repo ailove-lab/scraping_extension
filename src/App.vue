@@ -22,7 +22,7 @@
       v-dialog(
         v-model="dialog"
         max-width="75%"
-        scorllable
+        scrollable
         hide-overlay)
         v-card
           v-toolbar(dark color="primary")
@@ -44,7 +44,6 @@
     v-row#info_panel
       v-dialog(
         v-model="information"
-        max-width="75%"
         scrollable
         hide-overlay)
         
@@ -135,10 +134,8 @@ export default
       if @current_page.url isnt cat.url
         await @goto_category cat
 
-      page = Scraper.get_current_page()
-      @scraping_products = page.products
-      @scraping_products.map (p,i)=>p.rank=i+1; p.status="waiting"
-
+      category_page = Scraper.get_current_page()
+      @scraping_products = category_page.products.map (p,i)=>p.rank=i+1; p.status="waiting"; p
       for p, i in @scraping_products
         try
           p.status = "run"
@@ -160,20 +157,16 @@ export default
           window.scrollTo 0, document.body.scrollHeight
 
           # Дополняем продукт данными
-          page = Scraper.get_current_page()
-          product = page.product
+          product_page = Scraper.get_current_page()
+          product = product_page.product
           p[k] = v for k, v of product
           p.status = "ok"
           
-          # Лайфак / костыль - по какой-то причине v-data-table не апдейтися из событий          
-          # Обновляем ключ компоненту, чтобы он перерисовался
-          @scraping_table_key++
         catch e
           console.error e
           p.status = "err"
           p.error = e
 
-        # break if i>=2
       cat.snapshot_ts = Date.now()
       @category_status cat, "ok"
       await Storage.add_snapshot cat.url, @scraping_products
@@ -204,6 +197,9 @@ export default
         "rating"
         "price1"
         "price2"
+        "prem_price"
+        "unit_price"
+        "discount"
         "sizes"
         "reviews"
         "breadcrumbs"
