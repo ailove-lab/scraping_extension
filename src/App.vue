@@ -137,6 +137,7 @@ export default
       category_page = Scraper.get_current_page()
       @scraping_products = category_page.products.map (p,i)=>p.rank=i+1; p.status="waiting"; p
       for p, i in @scraping_products
+        # break if i>=3
         try
           p.status = "run"
           p.link.click()
@@ -161,7 +162,7 @@ export default
           product = product_page.product
           p[k] = v for k, v of product
           p.status = "ok"
-          
+
         catch e
           console.error e
           p.status = "err"
@@ -171,7 +172,17 @@ export default
       @category_status cat, "ok"
       await Storage.add_snapshot cat.url, @scraping_products
       await Storage.update_category cat
+      @save_to_server cat.url, @scraping_products
 
+
+    save_to_server: (url, snapshot)->
+      # Сохраняем в базу на сервере
+      fetch "https://vs43.ailove.ru:3434/api/snapshots",
+        method: "POST"
+        headers: 'Content-Type': 'application/json;charset=utf-8'
+        body: JSON.stringify({url, snapshot})
+
+        
     snapshot_all: ->
       list = []
       for k, cat of @categories
@@ -210,7 +221,8 @@ export default
         "description"
         "specs"
         "tags"
-        "stars"]
+        "stars"
+        "product_photos"]
 
       ts2date = (ts)->
         d = new Date parseInt ts

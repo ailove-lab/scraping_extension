@@ -19,16 +19,18 @@ class Scraper
       sizes      : "div > div.a0s9 > div.a2i2.common-aspect > div"
 
     product:
-      breadcrumbs : "#__ozon > div > div.a4e4 > div:nth-child(5) > div:nth-child(1) > div > div.b0h8.b0i6.b0j0.b0j8.b5y1 > div > ol"
-      sizes       : "#__ozon > div > div.a4e4 > div:nth-child(5) > div:nth-child(3) > div.b5z.b5y > div:nth-child(1) > div:nth-child(2) > div > div.b0h8.b0i.b0j3.b0k0 > div:nth-child(1) > div > div:nth-child(1) > div.a0n3 > div"
-      units       : "#__ozon > div > div.a4e4 > div:nth-child(5) > div:nth-child(3) > div.b5z.b5y > div:nth-child(1) > div:nth-child(2) > div > div.b0h8.b0i.b0j3.b0k0 > div:nth-child(1) > div > div:nth-child(2) > div.a0n3 > div"
-      details     : "#__ozon > div > div.a4e4 > div:nth-child(5) > div:nth-child(3) > div.b5z.b5y > div:nth-child(1) > div:nth-child(2) > div > div.b0h8.b0i.b0j3.b0k0 > div:nth-child(2) > div > div > div > div"
-      prices      : "#__ozon > div > div.a4e4 > div:nth-child(5) > div:nth-child(3) > div.b5y4.b5y > div > div:nth-child(2) > div > div > div > div.b3d3 > div > div > div:nth-child(2)"
-      description : "#__ozon > div > div.a4e4 > div:nth-child(6) > div > div > div > div.b0h8.b0i.b0j3.b0j9 > div:nth-child(2) > div.b5z.b5y > div > div:nth-child(1)"
-      specs       : "#__ozon > div > div.a4e4 > div:nth-child(6) > div > div > div > div.b0h8.b0i.b0j3.b0j9 > div:nth-child(2) > div.b5z.b5y > div > div:nth-child(3) > div > div"
-      tags        : "#__ozon > div > div.a4e4 > div:nth-child(6) > div > div > div > div.b0h8.b0i.b0j3.b0j9 > div:nth-child(2) > div.b5z.b5y > div > div:nth-child(4) > div"
-      stars       : "#__ozon > div > div.a4e4 > div:nth-child(6) > div > div > div > div.b0h8.b0i.b0j3.b0j9 > div.paginator > div > div:nth-child(2) > div.b5y4.b5y > div:nth-child(1) > div > div > div.a4d3"
-      
+      breadcrumbs : "#__ozon > div > div.a4e4 > div > div:nth-child(1) > div > div.b0h8.b0i6.b0j0.b0j8.b5y1 > div > ol"
+      sizes       : "#__ozon > div > div.a4e4 > div > div:nth-child(3) > div.b5z.b5y > div:nth-child(1) > div:nth-child(2) > div > div.b0h8.b0i.b0j3.b0k0 > div:nth-child(1) > div > div:nth-child(1) > div.a0n3 > div"
+      units       : "#__ozon > div > div.a4e4 > div > div:nth-child(3) > div.b5z.b5y > div:nth-child(1) > div:nth-child(2) > div > div.b0h8.b0i.b0j3.b0k0 > div:nth-child(1) > div > div:nth-child(2) > div.a0n3 > div"
+      details     : "#__ozon > div > div.a4e4 > div:nth-child(6) > div:nth-child(3) > div.b5z.b5y > div:nth-child(1) > div:nth-child(2) > div > div.b0h8.b0i.b0j3.b0k0 > div:nth-child(3) > div"
+      prices      : "#__ozon > div > div.a4e4 > div:nth-child(6) > div:nth-child(3) > div.b5y4.b5y > div > div:nth-child(2) > div > div > div.b3d2.b3d1 > div.b3c9 > div > div > div:nth-child(2)"
+      description : "#__ozon > div > div.a4e4 > div > div > div > div > div.b0h8.b0i.b0j3.b0j9 > div:nth-child(2) > div.b5z.b5y > div > div:nth-child(1)"
+      specs       : "#__ozon > div > div.a4e4 > div > div > div > div > div.b0h8.b0i.b0j3.b0j9 > div:nth-child(2) > div.b5z.b5y > div > div:nth-child(3) > div > div"
+      tags        : "#__ozon > div > div.a4e4 > div > div > div > div > div.b0h8.b0i.b0j3.b0j9 > div:nth-child(2) > div.b5z.b5y > div > div:nth-child(4) > div"
+      stars       : "#__ozon > div > div.a4e4 > div > div > div > div > div.b0h8.b0i.b0j3.b0j9 > div.paginator > div > div:nth-child(2) > div.b5y4.b5y > div:nth-child(1) > div > div > div.a4d3"
+      # photos      : "#__ozon > div > div.a4e4 > div > div > div.b5z.b5y > div:nth-child(1) > div.b5y8.b5y > div > div:nth-child(2) > div > div.b2f9 > div.b2g.b2g3 > div > div.a8n7.b2k5 > div"
+      photos      : "#__ozon > div > div.a4e4 > div > div > div.b5z.b5y > div:nth-child(1) > div.b5y8.b5y > div > div:nth-child(2) > div > div.b2f9 > div.b2g > div > div > div"
+
   @market: -> "ozon"
 
   @on_category_change: (handler)->
@@ -152,20 +154,23 @@ class Scraper
       da  = (s)->document.querySelectorAll s
       ds  = (s)->document.querySelector s
       
-      state = ds('[id^="state-listPhotos"]')?.getAttribute("data-state")
-      user_photos = if state? then JSON.parse(state).paging.total else "-"
+      # state = ds('[id^="state-listPhotos"]')?.getAttribute("data-state")
+      # user_photos = if state? then JSON.parse(state).paging.total else "-"
+      # state = ds('[id^="state-webGallery"]')?.getAttribute("data-state")
+      # product_photos = if state? then JSON.parse(state).images.length else "-"
 
       product =
-        breadcrumbs : [...da(sel.breadcrumbs)].map((e)=>e.innerText.trim()).join("/")
-        sizes_prod  : [...da(sel.sizes      )].map((e)=>e.innerText.trim()).join("/")
-        units       : [...da(sel.units      )].map((e)=>e.innerText.trim()).join("\n\n")
-        details     : ds(sel.details    )?.innerText
-        prices_prod : ds(sel.prices     )?.innerText
-        description : ds(sel.description)?.innerText
-        specs       : ds(sel.specs      )?.innerText
-        tags        : ds(sel.tags       )?.innerText
-        stars       : ds(sel.stars      )?.innerText
-        user_photos : user_photos
+        breadcrumbs   : [...da(sel.breadcrumbs)].map((e)=>e.innerText.trim()).join("/")
+        sizes_prod    : [...da(sel.sizes      )].map((e)=>e.innerText.trim()).join("/")
+        units         : [...da(sel.units      )].map((e)=>e.innerText.trim()).join("\n\n")
+        details       : ds(sel.details    )?.innerText
+        prices_prod   : ds(sel.prices     )?.innerText
+        description   : ds(sel.description)?.innerText
+        specs         : ds(sel.specs      )?.innerText
+        tags          : ds(sel.tags       )?.innerText
+        stars         : ds(sel.stars      )?.innerText
+        product_photos: da(sel.photos     )?.length
+        # user_photos   : user_photos
     product
     
 module.exports = Scraper
